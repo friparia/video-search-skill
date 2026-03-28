@@ -1,0 +1,26 @@
+{
+  "skill_name": "jellyfin-search",
+  "evals": [
+    {
+      "id": 1,
+      "name": "search-movie",
+      "prompt": "搜索 Jellyfin 中的电影，关键词是 '星际穿越'",
+      "expected_output": "返回包含电影名称、年份、类型、评分和简介的格式化文本列表",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "search-tv-show",
+      "prompt": "在 Jellyfin 里找电视剧 '黑镜'",
+      "expected_output": "返回电视剧的搜索结果，包含剧集信息",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "generic-search",
+      "prompt": "帮我找 '泰坦尼克号' 这部片子",
+      "expected_output": "在 Jellyfin 中搜索并返回匹配的媒体项",
+      "files": []
+    }
+  ]
+}
