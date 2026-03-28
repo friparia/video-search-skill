@@ -34,9 +34,9 @@ export BYR_COOKIE="session_id=xxx; auth_token=yyy"
 4. 组合格式：`session_id=值1; auth_token=值2`
 
 **重要**：
-- Jellyfin 配置是必需的（本地搜索）
-- BYR 配置是可选的（远程搜索，如果没有配置则只搜索本地）
-- 如果配置文件不存在或字段为空，返回友好的错误提示
+- Jellyfin 环境变量是必需的（本地搜索）
+- BYR 环境变量是可选的（远程搜索，如果没有配置则只搜索本地）
+- 如果环境变量未设置，脚本会返回友好的错误提示
 
 ## 工作流程
 
@@ -74,8 +74,8 @@ curl -s -H "X-MediaBrowser-Token: ${apiKey}" \
 #### 步骤2：远程搜索（如果本地没找到）
 
 ```bash
-# 搜索 BYR PT
-./scripts/byr-search.sh config.json "盗梦空间" "1"  # 1=电影
+# 搜索 BYR PT（从环境变量读取 BYR_COOKIE）
+python3 scripts/byr_search.py "盗梦空间"
 ```
 
 #### 输出格式
@@ -99,11 +99,11 @@ curl -s -H "X-MediaBrowser-Token: ${apiKey}" \
 
 📦 [电影] 盗梦空间 Inception (2010)
    大小: 4.37 GB
-   完成数: 1523
+   做种人数: 1523
 
 📦 [电影] 盗梦空间 1080P 中英双字
    大小: 8.12 GB
-   完成数: 892
+   做种人数: 892
 ```
 
 **都没找到**：
@@ -199,23 +199,15 @@ Jellyfin 提供 HTTP API 接口。主要端点：
 
 ## BYR PT 搜索脚本
 
-脚本位置：`scripts/byr-search.sh`
+脚本位置：`scripts/byr_search.py`
 
 **用法**：
 ```bash
-./byr-search.sh <config_path> <keyword> [type]
+python3 scripts/byr_search.py <keyword>
 ```
 
 **参数**：
-- `config_path`: 配置文件路径
 - `keyword`: 搜索关键词
-- `type`: 媒体类型（可选）
-  - `0` 或不传：全部
-  - `1`: 电影（cat=408）
-  - `2`: 电视剧（cat=401）
-  - `3`: 纪录片（cat=410）
-  - `5`: 综艺（cat=404）
-  - `6`: 动画（cat=404）
 
 **返回格式**（JSON）：
 ```json
@@ -224,9 +216,8 @@ Jellyfin 提供 HTTP API 接口。主要端点：
     {
       "title": "电影标题",
       "id": "torrent_id",
-      "size": "4.37 GB",
-      "uploader": "上传者名称",
-      "finish": "1523"
+      "size": "4.35GB",
+      "seeders": "7"
     }
   ]
 }
@@ -259,9 +250,7 @@ https://byr.pt/torrents.php?action=download&id={torrent_id}
 
 📦 [类型] 标题
    大小: XX GB
-   上传者: xxx
-   完成数: 1523
-   下载: https://byr.pt/torrents.php?action=download&id=123456
+   做种人数: 1523
 ```
 
 ## 错误处理
