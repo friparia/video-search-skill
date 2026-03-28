@@ -10,18 +10,15 @@
 
 ## 配置
 
-在项目根目录创建 `config.json` 文件：
+在 `~/.bashrc` 或 `~/.zshrc` 中添加：
 
-```json
-{
-  "jellyfin": {
-    "url": "http://localhost:8096",
-    "apiKey": "your-api-key-here"
-  },
-  "byr": {
-    "cookie": "session_id=xxx; auth_token=yyy"
-  }
-}
+```bash
+# Jellyfin（必需）
+export JELLYFIN_URL="http://localhost:8096"
+export JELLYFIN_API_KEY="your-api-key-here"
+
+# BYR（可选，用于 PT 搜索）
+export BYR_COOKIE="session_id=xxx; auth_token=yyy"
 ```
 
 ### 获取 Jellyfin API Key
@@ -30,7 +27,7 @@
 2. 点击右上角用户图标 → 设置
 3. 选择 "API 密钥"
 4. 点击 "+" 添加新的 API 密钥
-5. 复制生成的密钥到配置文件
+5. 复制生成的密钥
 
 ### 获取 BYR Cookie（可选）
 
